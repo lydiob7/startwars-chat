@@ -1,19 +1,20 @@
+import {
+    beruWhitesunAvatar,
+    c3poAvatar,
+    chewbaccaAvatar,
+    darthVaderAvatar,
+    hanSoloAvatar,
+    jabbaAvatar,
+    leiaAvatar,
+    lukeAvatar,
+    obiWanAvatar,
+    owenLarsAvatar,
+    r2d2Avatar,
+    wilhuffTarkinAvatar,
+    yodaAvatar
+} from "../assets/images";
 import User from "../types/User";
 import Entities from "./Entities";
-
-import lukeAvatar from "../assets/images/luke.jpg";
-import c3poAvatar from "../assets/images/c3po.jpeg";
-import r2d2Avatar from "../assets/images/r2d2.webp";
-import leiaAvatar from "../assets/images/leia.jpg";
-import darthVaderAvatar from "../assets/images/darth-vader.jpg";
-import owenLarsAvatar from "../assets/images/owen-lars.jpg";
-import beruWhitesunAvatar from "../assets/images/beru-whitesun.webp";
-import obiWanAvatar from "../assets/images/obiwan.jpg";
-import wilhuffTarkinAvatar from "../assets/images/whihuff-tarkin.webp";
-import chewbaccaAvatar from "../assets/images/chewbacca.webp";
-import hanSoloAvatar from "../assets/images/han-solo.webp";
-import jabbaAvatar from "../assets/images/jabba.webp";
-import yodaAvatar from "../assets/images/yoda.webp";
 
 const users: User[] = [
     { id: "B879F62C-E929-479E-A9A8-9BDE07F97822", username: "Luke Skywalker", avatar: lukeAvatar },
