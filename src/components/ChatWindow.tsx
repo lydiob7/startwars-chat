@@ -1,12 +1,26 @@
-import { ComponentProps, FormEvent, useRef, useState } from "react";
+import { ComponentProps, Dispatch, FormEvent, SetStateAction, useRef, useState } from "react";
 import clsx from "clsx";
-import { useChatContext } from "../context/useChatProvider";
 import ChatMessages from "./ChatMessages";
+import Room from "../types/Room";
 
-interface ChatWindowProps extends ComponentProps<"div"> {}
+interface ChatWindowProps extends ComponentProps<"div"> {
+    authUser: string | null;
+    handleReactToMessage: (messageId: string, reaction: string) => void;
+    handleSendMessage: (roomId: string, body: string) => void;
+    rooms: Room[];
+    selectedRoom: Room | null;
+    setSelectedRoom: Dispatch<SetStateAction<Room | null>>;
+}
 
-const ChatWindow = ({ className, ...props }: ChatWindowProps) => {
-    const { authUser, handleSendMessage, selectedRoom, setSelectedRoom } = useChatContext();
+const ChatWindow = ({
+    authUser,
+    className,
+    handleReactToMessage,
+    handleSendMessage,
+    selectedRoom,
+    setSelectedRoom,
+    ...props
+}: ChatWindowProps) => {
     const [isMinimized, setIsMinimized] = useState<boolean>(false);
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -78,7 +92,11 @@ const ChatWindow = ({ className, ...props }: ChatWindowProps) => {
                     </div>
                 </header>
 
-                <ChatMessages />
+                <ChatMessages
+                    authUser={authUser}
+                    handleReactToMessage={handleReactToMessage}
+                    selectedRoom={selectedRoom}
+                />
 
                 <footer className="h-16 border-t-1 border-gray-700">
                     <form

@@ -1,20 +1,30 @@
 import { ComponentProps } from "react";
 import clsx from "clsx";
 import Message from "../types/Message";
-import { useChatContext } from "../context/useChatProvider";
 import { differenceInHours, formatDistance } from "date-fns";
+import Room from "../types/Room";
 
 interface ChatMessageProps extends ComponentProps<"div"> {
+    authUser: string | null;
+    handleReactToMessage: (messageId: string, reaction: string) => void;
     message: Message;
     messageIndex: number;
+    selectedRoom: Room | null;
     wholeArray: Message[];
 }
 
 const REACTIONS = ["🙌", "💚", "😂", "😢"];
 
-const ChatMessage = ({ className, messageIndex, message, wholeArray, ...props }: ChatMessageProps) => {
-    const { authUser, handleReactToMessage, selectedRoom } = useChatContext();
-
+const ChatMessage = ({
+    authUser,
+    className,
+    handleReactToMessage,
+    messageIndex,
+    message,
+    selectedRoom,
+    wholeArray,
+    ...props
+}: ChatMessageProps) => {
     const isOwnMessage = message.authorId === authUser;
     const author = selectedRoom?.users.find((u) => u.id === message.authorId);
     const currentMessageTimestamp = new Date(message?.timestamp || "0");

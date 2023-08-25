@@ -1,15 +1,17 @@
 import { ComponentProps } from "react";
 import clsx from "clsx";
 import UserButton from "./UserButton";
-import { useChatContext } from "../context/useChatProvider";
 
 import "./UsersList.css";
+import User from "../types/User";
 
-interface UsersListProps extends ComponentProps<"div"> {}
+interface UsersListProps extends ComponentProps<"div"> {
+    authUser: string | null;
+    login: (userId: string) => void;
+    users: User[];
+}
 
-const UsersList = ({ className, ...props }: UsersListProps) => {
-    const { authUser, login, users } = useChatContext();
-
+const UsersList = ({ className, authUser, login, users, ...props }: UsersListProps) => {
     return (
         <div className="w-full">
             <p className="text-xl font-semibold w-full py-8">Login as:</p>

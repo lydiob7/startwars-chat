@@ -1,12 +1,13 @@
 import { ComponentProps, useMemo } from "react";
 import clsx from "clsx";
-import { useChatContext } from "../context/useChatProvider";
+import User from "../types/User";
 
-interface AuthUserCardProps extends ComponentProps<"div"> {}
+interface AuthUserCardProps extends ComponentProps<"div"> {
+    authUser: string | null;
+    users: User[];
+}
 
-const AuthUserCard = ({ className, ...props }: AuthUserCardProps) => {
-    const { authUser, users } = useChatContext();
-
+const AuthUserCard = ({ authUser, className, users, ...props }: AuthUserCardProps) => {
     const user = useMemo(() => users.find((u) => u.id === authUser), [authUser, users]);
 
     if (!user) return null;

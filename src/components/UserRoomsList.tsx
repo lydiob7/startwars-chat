@@ -1,15 +1,30 @@
-import { ComponentProps, useMemo, useRef, useState } from "react";
+import { ComponentProps, Dispatch, SetStateAction, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
-import { useChatContext } from "../context/useChatProvider";
+import Room from "../types/Room";
+import User from "../types/User";
 
-interface UserRoomsListProps extends ComponentProps<"div"> {}
+interface UserRoomsListProps extends ComponentProps<"div"> {
+    authUser: string | null;
+    handleCreateNewConversation: (userId?: string | null) => void;
+    rooms: Room[];
+    selectedRoom: Room | null;
+    setSelectedRoom: Dispatch<SetStateAction<Room | null>>;
+    users: User[];
+}
 
-const UserRoomsList = ({ className, ...props }: UserRoomsListProps) => {
+const UserRoomsList = ({
+    authUser,
+    className,
+    handleCreateNewConversation,
+    rooms,
+    selectedRoom,
+    setSelectedRoom,
+    users,
+    ...props
+}: UserRoomsListProps) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     const [selectedNewUserId, setSelectedNewUserId] = useState<string | null>(null);
-
-    const { authUser, handleCreateNewConversation, rooms, selectedRoom, setSelectedRoom, users } = useChatContext();
 
     const handleOpenDialog = () => {
         dialogRef.current?.showModal();
