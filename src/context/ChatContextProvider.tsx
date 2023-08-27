@@ -3,7 +3,7 @@ import { messagesService, roomsService, usersService } from "../@fake-db";
 import Room from "../types/Room";
 import User from "../types/User";
 
-interface ChatContextProps {
+export interface ChatContextProps {
     authUser: string | null;
     handleCreateNewConversation: (userId?: string | null) => void;
     handleReactToMessage: (messageId: string, reaction: string) => void;
