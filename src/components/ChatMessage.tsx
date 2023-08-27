@@ -34,7 +34,6 @@ const ChatMessage = ({
 
     return (
         <div
-            key={message.id}
             className={clsx(
                 "group relative flex flex-col gap-2 max-w-[80%]",
                 isOwnMessage ? "self-end items-end" : "self-start items-start",
@@ -67,7 +66,7 @@ const ChatMessage = ({
                 )}
             >
                 {message.body}
-                {message.reactions.length && (
+                {!!message.reactions.length && (
                     <div
                         className={clsx(
                             "absolute bottom-8 rounded-full bg-slate-800 flex gap-2 px-2 py-1",
