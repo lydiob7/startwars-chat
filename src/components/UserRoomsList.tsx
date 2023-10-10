@@ -1,6 +1,8 @@
 import { ComponentProps, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
-import { useChatContext } from "../context/useChatProvider";
+import { useChatContext } from "../context/useChatContext";
+import { useAuthContext } from "../context/useAuthContext";
+import { IMG_URL_FALLBACK } from "../const";
 
 interface UserRoomsListProps extends ComponentProps<"div"> {}
 
@@ -9,7 +11,8 @@ const UserRoomsList = ({ className, ...props }: UserRoomsListProps) => {
 
     const [selectedNewUserId, setSelectedNewUserId] = useState<string | null>(null);
 
-    const { authUser, handleCreateNewConversation, rooms, selectedRoom, setSelectedRoom, users } = useChatContext();
+    const { authUser } = useAuthContext();
+    const { currentRoom, handleCreateNewConversation, handleSelectRoom, rooms, users } = useChatContext();
 
     const handleOpenDialog = () => {
         dialogRef.current?.showModal();
@@ -21,32 +24,32 @@ const UserRoomsList = ({ className, ...props }: UserRoomsListProps) => {
 
     const filteredUsers = useMemo(() => {
         const userIdsWithConversations: string[] = [];
-        rooms.forEach((room) => {
+        rooms?.forEach((room) => {
             room.users.forEach((user) => {
-                if (user.id !== authUser) userIdsWithConversations.push(user.id);
+                if (user.id !== authUser?.id) userIdsWithConversations.push(user.id);
             });
         });
-        return users.filter((user) => user.id !== authUser && !userIdsWithConversations.includes(user.id));
-    }, [authUser, rooms, users]);
+        return users.filter((user) => user.id !== authUser?.id && !userIdsWithConversations.includes(user.id));
+    }, [authUser?.id, rooms, users]);
 
     return (
         <>
             <div className={clsx("grid gap-4", className)} {...props}>
                 {rooms.map((room) => {
-                    const roomUser = room.users.find((user) => user.id !== authUser);
+                    const roomUser = room.users.find((user) => user.id !== authUser?.id);
                     return (
                         <button
                             className={clsx(
                                 "w-full flex items-center justify-center gap-4 bg-gray-800 hover:bg-gray-700 transition-all py-4 border-1 rounded-md border-gray-700",
-                                selectedRoom?.id === room.id ? "outline outline-2 outline-offset-2 outline-primary" : ""
+                                currentRoom?.id === room.id ? "outline outline-2 outline-offset-2 outline-primary" : ""
                             )}
                             key={room.id}
-                            onClick={() => setSelectedRoom(room)}
+                            onClick={() => handleSelectRoom(room.id)}
                         >
                             <div className="rounded-full overflow-hidden h-8 w-8">
                                 <img
                                     className="h-full w-full object-cover"
-                                    src={roomUser?.avatar}
+                                    src={roomUser?.avatar || IMG_URL_FALLBACK}
                                     alt={roomUser?.username}
                                 />
                             </div>
@@ -78,9 +81,13 @@ const UserRoomsList = ({ className, ...props }: UserRoomsListProps) => {
                                 onClick={() => setSelectedNewUserId(user.id)}
                             >
                                 <div className="rounded-full overflow-hidden h-8 w-8">
-                                    <img className="h-full w-full object-cover" src={user.avatar} alt={user.username} />
+                                    <img
+                                        className="h-full w-full object-cover"
+                                        src={user.avatar || IMG_URL_FALLBACK}
+                                        alt={user.username}
+                                    />
                                 </div>
-                                <span>{user.username}</span>
+                                <span>{user.name || user.username}</span>
                             </button>
                         ))}
                     </div>
@@ -89,7 +96,7 @@ const UserRoomsList = ({ className, ...props }: UserRoomsListProps) => {
                             Cancel
                         </button>
                         <button
-                            className="border-1 border-primary px-4 py-2 text-primary font-semibold rounded-md"
+                            className="main-btn"
                             onClick={() => {
                                 handleCreateNewConversation(selectedNewUserId);
                                 handleCloseDialog();

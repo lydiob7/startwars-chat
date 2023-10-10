@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.main-btn {
+    @apply border-1 border-primary px-4 py-2 text-primary font-semibold rounded-md;
+}
+
+.text-input {
+    @apply text-lg px-4 py-2 bg-transparent text-white border-1 border-gray-400 rounded-sm;
+}

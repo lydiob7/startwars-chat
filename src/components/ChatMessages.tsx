@@ -1,16 +1,16 @@
 import { ComponentProps } from "react";
 import clsx from "clsx";
-import { useChatContext } from "../context/useChatProvider";
+import { useChatContext } from "../context/useChatContext";
 import { compareDesc } from "date-fns";
 import ChatMessage from "./ChatMessage";
 
 interface ChatMessagesProps extends ComponentProps<"div"> {}
 
 const ChatMessages = ({ className, ...props }: ChatMessagesProps) => {
-    const { selectedRoom } = useChatContext();
+    const { currentRoom } = useChatContext();
 
-    const reversedMessages = selectedRoom?.messages.sort((a, b) =>
-        compareDesc(new Date(a.timestamp), new Date(b.timestamp))
+    const reversedMessages = currentRoom?.messages?.sort((a, b) =>
+        compareDesc(new Date(a.created_at), new Date(b.created_at))
     );
 
     return (

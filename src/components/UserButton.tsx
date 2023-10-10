@@ -1,6 +1,7 @@
 import { ComponentProps } from "react";
 import clsx from "clsx";
 import User from "../types/User";
+import { IMG_URL_FALLBACK } from "../const";
 
 interface UserButtonProps extends ComponentProps<"button"> {
     isSelected?: boolean;
@@ -21,7 +22,7 @@ const UserButton = ({ className, handleSelect, isSelected, user, ...props }: Use
             {...props}
         >
             <div className="rounded-full overflow-hidden h-16 w-16 shrink-0 grow-0">
-                <img className="h-full w-full object-cover" src={user.avatar} alt={user.username} />
+                <img className="h-full w-full object-cover" src={user.avatar || IMG_URL_FALLBACK} alt={user.username} />
             </div>
             <p>{user.username}</p>
         </button>

@@ -1,23 +1,26 @@
 import { ComponentProps, FormEvent, useRef, useState } from "react";
 import clsx from "clsx";
-import { useChatContext } from "../context/useChatProvider";
+import { useChatContext } from "../context/useChatContext";
 import ChatMessages from "./ChatMessages";
+import { useAuthContext } from "../context/useAuthContext";
+import { IMG_URL_FALLBACK } from "../const";
 
 interface ChatWindowProps extends ComponentProps<"div"> {}
 
 const ChatWindow = ({ className, ...props }: ChatWindowProps) => {
-    const { authUser, handleSendMessage, selectedRoom, setSelectedRoom } = useChatContext();
+    const { authUser } = useAuthContext();
+    const { currentRoom, handleSendMessage, handleSelectRoom } = useChatContext();
     const [isMinimized, setIsMinimized] = useState<boolean>(false);
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const roomUser = selectedRoom?.users.find((u) => u.id !== authUser);
+    const roomUser = currentRoom?.users.find((u) => u.id !== authUser?.id);
 
     const handleSubmit = (ev: FormEvent) => {
         ev.preventDefault();
         const body = inputRef.current?.value;
-        if (!body || !selectedRoom?.id) return;
-        handleSendMessage(selectedRoom.id, body);
+        if (!body || !currentRoom?.id) return;
+        handleSendMessage(currentRoom.id, body);
         inputRef.current.value = "";
     };
 
@@ -25,7 +28,7 @@ const ChatWindow = ({ className, ...props }: ChatWindowProps) => {
         <div
             className={clsx(
                 "absolute bottom-0 right-32 max-h-0 overflow-hidden",
-                !selectedRoom ? "" : isMinimized ? "animate-minimize-chat" : "animate-maximize-chat"
+                !currentRoom ? "" : isMinimized ? "animate-minimize-chat" : "animate-maximize-chat"
             )}
         >
             <div
@@ -41,7 +44,7 @@ const ChatWindow = ({ className, ...props }: ChatWindowProps) => {
                             <div className="rounded-full overflow-hidden h-8 w-8">
                                 <img
                                     className="h-full w-full object-cover"
-                                    src={roomUser?.avatar}
+                                    src={roomUser?.avatar || IMG_URL_FALLBACK}
                                     alt={roomUser?.username}
                                 />
                             </div>
@@ -67,7 +70,7 @@ const ChatWindow = ({ className, ...props }: ChatWindowProps) => {
                                 </svg>
                             )}
                         </button>
-                        <button className="w-3 h-3" onClick={() => setSelectedRoom(null)}>
+                        <button className="w-3 h-3" onClick={() => handleSelectRoom(null)}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                                 <path
                                     className="fill-white"

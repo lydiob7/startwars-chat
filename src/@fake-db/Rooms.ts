@@ -14,7 +14,8 @@ const rooms: Room[] = [
         messages: [
             (await messagesService.getById("F321E746-ADEE-4251-B9A1-61A7BE84765F")) as Message,
             (await messagesService.getById("481EFD87-D760-4ABA-B7AC-B0198E72226A")) as Message
-        ]
+        ],
+        writtingUserIds: []
     },
     {
         id: "89D74126-6925-46CC-B504-6440573127D8",
@@ -25,7 +26,8 @@ const rooms: Room[] = [
         messages: [
             (await messagesService.getById("9C4DF42B-140B-45D4-BEFA-E82C1F9E8F9C")) as Message,
             (await messagesService.getById("E39341D8-FC23-429B-8D97-4AE79897D592")) as Message
-        ]
+        ],
+        writtingUserIds: []
     },
     {
         id: "1EF153B0-322A-48EC-892F-F03C17A76FB4",
@@ -36,7 +38,8 @@ const rooms: Room[] = [
         messages: [
             (await messagesService.getById("1715D719-83AA-4B83-BA39-D9B697E64141")) as Message,
             (await messagesService.getById("B977D1D8-42BB-467C-A85D-E45E5653479B")) as Message
-        ]
+        ],
+        writtingUserIds: []
     },
     {
         id: "2364B065-95F2-4B27-8F27-328E4B4DAFA1",
@@ -47,7 +50,8 @@ const rooms: Room[] = [
         messages: [
             (await messagesService.getById("5917824B-CCDA-4BEB-9F00-54FE97BBFAAD")) as Message,
             (await messagesService.getById("924405EF-F344-457B-88A1-1B1FBEF19F7A")) as Message
-        ]
+        ],
+        writtingUserIds: []
     },
     {
         id: "FBD949C8-DBEB-4B94-87E0-298FB2EFE769",
@@ -58,7 +62,8 @@ const rooms: Room[] = [
         messages: [
             (await messagesService.getById("DF377173-298B-4554-AFDC-1FAB65F60DAE")) as Message,
             (await messagesService.getById("B740806E-F8EE-48FF-B550-C198187A5FAA")) as Message
-        ]
+        ],
+        writtingUserIds: []
     }
 ];
 
